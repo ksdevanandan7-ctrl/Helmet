@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helmet Details</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark px-3">
+        <a class="navbar-brand" href="index.html">Helmet Store</a>
+        <a class="btn btn-warning" href="cart.html">
+            Cart <span id="cartCount" class="badge bg-danger">0</span>
+        </a>
+    </nav>
+
+    <div class="container mt-4">
+        <div id="productDetails"></div>
+    </div>
+
+    <script>
+        const products = {
+            1: {
+                name: "Shoei X-SPR Pro Marquez8 TC-1 Red Blue Helmet",
+                price: 89999,
+                desc: "The Shoei X-SPR Pro Marquez8 TC-1 is the official MotoGP aerodynamic racing helmet designed for extreme airflow and stability.",
+                img: "shoie.jpg"
+            },
+            2: {
+                name: "AGV Pista GP R Project 46 3.0",
+                price: 125000,
+                desc: "The AGV Pista GP R Project 46 3.0 is a full carbon helmet worn by Valentino Rossi, offering unmatched racing performance and ventilation.",
+                img: "agv.jpg"
+            },
+            3: {
+                name: "Alpinestars LE Martinator S-R10",
+                price: 94500,
+                desc: "The limited edition Alpinestars S-R10 Martinator helmet is built with aerospace carbon fiber for ultra-lightweight protection.",
+                img: "alphinestar.jpg"
+            }
+        };
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        document.getElementById("cartCount").innerText = cart.length;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
+        const p = products[id];
+
+        document.getElementById("productDetails").innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <img src="${p.img}" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+                <h2>${p.name}</h2>
+                <h4 class="text-success">₹${p.price}</h4>
+                <p>${p.desc}</p>
+                <button onclick="addToCart(${id})" class="btn btn-success">Add to Cart</button>
+            </div>
+        </div>
+    `;
+
+        function addToCart(productId) {
+            cart.push(products[productId]);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            window.location = "cart.html";
+        }
+    </script>
+
+</body>
+
+</html>
